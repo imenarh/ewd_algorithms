@@ -39,9 +39,12 @@ def binary_search(data, target):
     return None
 
 
-def hashmap(data):
-    pass
+def hashmap(data, target):
+    if target in data:
+        return data[target], target
+    return None
 
 target = gen_target()
 print(linear_search(drivers, target))
 print(binary_search(drivers, target))
+print("Hashmap:", hashmap(drivers, target))

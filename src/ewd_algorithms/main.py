@@ -1,4 +1,5 @@
 import random
+import time
 
 from ewd_algorithms.drivers import drivers
 
@@ -44,7 +45,39 @@ def hashmap(data, target):
         return data[target], target
     return None
 
-target = gen_target()
-print(linear_search(drivers, target))
-print(binary_search(drivers, target))
-print("Hashmap:", hashmap(drivers, target))
+def time_search(func, data, target, runs=1000):
+    """Run a search function many times and return the average time in
+    microseconds. Averaging smooths out noise since a single O(1) or
+    O(log N) call can take only a few microseconds."""
+    start = time.perf_counter()
+    for _ in range(runs):
+        result = func(data, target)
+    elapsed = time.perf_counter() - start
+    avg_microseconds = (elapsed / runs) * 1_000_000
+    return result, avg_microseconds
+
+
+def compare(data, target):
+    print(f"Total drivers: {len(data):,}")
+    print(f"Target driver: {target}\n")
+
+    linear_result, linear_time = time_search(linear_search, data, target)
+    print(f"Linear search   (O(N)):      {linear_result}  -  {linear_time:.2f} µs")
+
+    binary_result, binary_time = time_search(binary_search, data, target)
+    print(f"Binary search   (O(log N)):  {binary_result}  -  {binary_time:.2f} µs")
+
+    hashmap_result, hashmap_time = time_search(hashmap, data, target)
+    print(f"Hashmap lookup  (O(1)):      {hashmap_result}  -  {hashmap_time:.2f} µs")
+
+    print("\n--- Summary ---")
+    if binary_time > 0:
+        print(f"Binary search was ~{linear_time / binary_time:,.1f}x faster than linear search.")
+    if hashmap_time > 0:
+        print(f"Hashmap was ~{linear_time / hashmap_time:,.1f}x faster than linear search.")
+        print(f"Hashmap was ~{binary_time / hashmap_time:,.1f}x faster than binary search.")
+
+
+if __name__ == "__main__":
+    target = gen_target()
+    compare(drivers, target)

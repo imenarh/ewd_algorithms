@@ -46,9 +46,6 @@ def hashmap(data, target):
     return None
 
 def time_search(func, data, target, runs=1000):
-    """Run a search function many times and return the average time in
-    microseconds. Averaging smooths out noise since a single O(1) or
-    O(log N) call can take only a few microseconds."""
     start = time.perf_counter()
     for _ in range(runs):
         result = func(data, target)

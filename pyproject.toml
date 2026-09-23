@@ -1,16 +1,13 @@
 [project]
 name = "ewd-algorithms"
 version = "0.1.0"
-description = "Add your description here"
+description = "An experiment comparing three ways to find one driver in a list of 10,000"
 readme = "README.md"
-authors = [
-    { name = "Herve Rwigema", email = "imenarwigema@gmail.com" }
-]
 requires-python = ">=3.14"
 dependencies = []
 
 [project.scripts]
-ewd-algorithms = "ewd_algorithms:main"
+ewd-algorithms = "ewd_algorithms.main:main"
 
 [build-system]
 requires = ["uv_build>=0.12.18,<0.13.0"]

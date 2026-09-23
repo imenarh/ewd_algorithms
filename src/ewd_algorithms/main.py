@@ -14,10 +14,7 @@ def linear_search(data, target):
             return name, driver_id
     return None
 
-def binary_search(data, target):
-    # Convert the dictionary into a sorted list of (driver_id, name)
-    sorted_data = sorted(data.items())
-
+def binary_search(sorted_data, target):
     left = 0
     right = len(sorted_data) - 1
 
@@ -56,12 +53,12 @@ def time_search(func, data, target, runs=1000):
 
 def compare(data, target):
     print(f"Total drivers: {len(data):,}")
-    print(f"Target driver: {target}\n")
+    print(f"Target driver ID: {target}\n")
 
     linear_result, linear_time = time_search(linear_search, data, target)
     print(f"Linear search   (O(N)):      {linear_result}  -  {linear_time:.2f} µs")
 
-    binary_result, binary_time = time_search(binary_search, data, target)
+    binary_result, binary_time = time_search(binary_search, sorted(data.items()), target)
     print(f"Binary search   (O(log N)):  {binary_result}  -  {binary_time:.2f} µs")
 
     hashmap_result, hashmap_time = time_search(hashmap, data, target)
@@ -75,6 +72,10 @@ def compare(data, target):
         print(f"Hashmap was ~{binary_time / hashmap_time:,.1f}x faster than binary search.")
 
 
-if __name__ == "__main__":
+def main():
     target = gen_target()
     compare(drivers, target)
+
+
+if __name__ == "__main__":
+    main()
